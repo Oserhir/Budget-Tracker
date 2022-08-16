@@ -66,3 +66,9 @@
 .money-minus {
   color: #c0392b;
 }
+
+#inputerrAmount , #inputerrName {
+  color: #c0392b;
+  font-size: 12px;
+
+}

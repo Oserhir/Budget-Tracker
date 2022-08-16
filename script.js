@@ -3,29 +3,44 @@ const Name = document.getElementById("Name");
 const Total = document.getElementById("balance");
 
 const Amount = document.getElementById("Amount");
+
 const AddExpense = document.querySelector("Button");
 const moneyPlus = document.getElementById("money-plus");
 const moneyMinus = document.getElementById("money-minus");
 
+const inputerrName = document.getElementById("inputerrName");
+const inputerrAmount = document.getElementById("inputerrAmount");
+
+window.onload = () => {
+  Name.value = "";
+  Amount.value = "";
+};
+
 let transactions = [];
 
 AddExpense.addEventListener("click", () => {
-  AddData();
-  DisplayData();
-  yourBalance();
+  addTransaction();
 });
 
-let AddData = () => {
-  let transaction = {
-    id: generateID(),
-    name: Name.value,
-    date: currentDate(),
-    amount: parseInt(Amount.value),
-  };
-  transactions.push(transaction);
+let addTransaction = () => {
+  console.log(Name.value.trim());
+  console.log(Amount.value.trim());
+  if (Name.value.trim() === "" || Amount.value.trim() === "") {
+    alert("please add text and amount");
+  } else {
+    const transaction = {
+      id: generateID(),
+      name: Name.value,
+      date: currentDate(),
+      amount: parseInt(Amount.value),
+    };
 
-  Name.value = "";
-  Amount.value = "";
+    transactions.push(transaction);
+    yourBalance();
+    displayTransaction();
+    Name.value = "";
+    Amount.value = "";
+  }
 };
 
 // Generate random ID
@@ -42,7 +57,7 @@ let currentDate = () => {
   return currentDate;
 };
 
-let DisplayData = () => {
+let displayTransaction = () => {
   let Data = "";
   const result = transactions.map((item) => {
     Data += `<li>
