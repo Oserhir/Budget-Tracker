@@ -1,29 +1,36 @@
 const table = document.getElementById("table");
-const Name = document.getElementById("Name").value;
-const Date = document.getElementById("Date").value;
-const Amount = document.getElementById("Amount").value;
+const Name = document.getElementById("Name");
+const Date = document.getElementById("Date");
+const Amount = document.getElementById("Amount");
+const AddExpense = document.querySelector("Button");
 
-console.log(`${Name} ${Date} ${Amount}`);
+let Arrays = [];
 
-let Array = [];
+AddExpense.addEventListener("click", () => {
+  AddData();
+  DisplayData();
+});
 
-let myArr = [
-  { id: 1, name: "mcdonald", date: "07/12/2024", Amount: 30 },
-  { id: 2, name: "Mila", date: "07/12/2024", Amount: 40 },
-];
-
-let DisplayTable = () => {
-  let Afficher = "";
-  for (let i = 0; i < myArr.length; i++) {
-    Afficher += `   <tr>
-    <th scope="row">${myArr[i]["id"]}</th>
-    <td> ${myArr[i]["name"]} </td>
-    <td>${myArr[i]["date"]}</td>
-    <td> ${myArr[i]["Amount"]} </td>
-  </tr>`;
-  }
-
-  table.innerHTML = Afficher;
+let AddData = () => {
+  let Data = {
+    id: Arrays.length + 1,
+    name: Name.value,
+    date: Date.value,
+    amount: Amount.value,
+  };
+  Arrays.push(Data);
 };
 
-DisplayTable();
+let DisplayData = () => {
+  let Data = "";
+  const result = Arrays.map((item) => {
+    Data += `<tr>
+    <th scope="row">${item["id"]}</th>
+    <td> ${item["name"]} </td>
+    <td>${item["date"]}</td>
+    <td> ${item["amount"]} </td>
+  </tr>`;
+  });
+
+  table.innerHTML = Data;
+};
