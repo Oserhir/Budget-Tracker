@@ -1,17 +1,18 @@
 const table = document.getElementById("transaction");
 const Name = document.getElementById("Name");
-const balance = document.getElementById("balance");
+const Total = document.getElementById("balance");
+
 const Amount = document.getElementById("Amount");
 const AddExpense = document.querySelector("Button");
-
-window.onload = () => {};
+const moneyPlus = document.getElementById("money-plus");
+const moneyMinus = document.getElementById("money-minus");
 
 let transactions = [];
 
 AddExpense.addEventListener("click", () => {
   AddData();
   DisplayData();
-  displayYourBalance();
+  yourBalance();
 });
 
 let AddData = () => {
@@ -19,7 +20,7 @@ let AddData = () => {
     id: generateID(),
     name: Name.value,
     date: currentDate(),
-    amount: Amount.value,
+    amount: parseInt(Amount.value),
   };
   transactions.push(transaction);
 
@@ -31,7 +32,8 @@ let AddData = () => {
 let generateID = () => {
   return Math.floor(Math.random() * 100000000);
 };
-// Generate current DATE
+
+// current DATE
 let currentDate = () => {
   const date = new Date();
   let currentDate = `${date.getDate()}-${
@@ -57,22 +59,28 @@ let DisplayData = () => {
   table.innerHTML = Data;
 };
 
-let displayYourBalance = () => {
-  balance.innerHTML = `$${yourBalance()}`;
-};
-
 let yourBalance = () => {
-  let sum = 0;
-
-  transactions.map((item) => {
-    let Amount = Number(item["amount"]);
-    console.log(Amount);
-    if (Amount > 0) {
-      sum = sum + Amount;
-    } else {
-      sum = sum - Amount;
-    }
+  const amounts = transactions.map((amount) => {
+    return amount["amount"];
   });
 
-  return sum.toFixed(2);
+  const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
+
+  const income = amounts
+    .filter((item) => {
+      return item > 0;
+    })
+    .reduce((acc, item) => (acc += item), 0)
+    .toFixed(2);
+
+  const expense = amounts
+    .filter((item) => {
+      return item < 0;
+    })
+    .reduce((acc, item) => (acc += item), 0)
+    .toFixed(2);
+
+  moneyPlus.innerText = `+${income}`;
+  moneyMinus.innerText = `${expense}`;
+  Total.innerText = `$${total}`;
 };
