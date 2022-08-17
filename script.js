@@ -1,13 +1,10 @@
 const table = document.getElementById("transaction");
 const Name = document.getElementById("Name");
 const Total = document.getElementById("balance");
-
 const Amount = document.getElementById("Amount");
-
 const AddExpense = document.querySelector("Button");
 const moneyPlus = document.getElementById("money-plus");
 const moneyMinus = document.getElementById("money-minus");
-
 const inputerrName = document.getElementById("inputerrName");
 const inputerrAmount = document.getElementById("inputerrAmount");
 
@@ -18,13 +15,19 @@ window.onload = () => {
 
 let transactions = [];
 
+let removeTransaction = (id) => {
+  transactions = transactions.filter((item) => {
+    return item["id"] != id;
+  });
+  yourBalance();
+  displayTransaction();
+};
+
 AddExpense.addEventListener("click", () => {
   addTransaction();
 });
 
 let addTransaction = () => {
-  console.log(Name.value.trim());
-  console.log(Amount.value.trim());
   if (Name.value.trim() === "" || Amount.value.trim() === "") {
     alert("please add text and amount");
   } else {
@@ -63,14 +66,18 @@ let displayTransaction = () => {
     Data += `<li>
     ${item["name"]}
     <div>
-      <span class= ${
-        Number(item["amount"]) > 0 ? "income" : "expense"
-      }  > $${Math.abs(Number(item["amount"]))}  </span>
-        
+      
+      <button type="button" class="${
+        Number(item["amount"]) > 0 ? "btn btn-success" : "btn btn-danger"
+      } ">$${Math.abs(Number(item["amount"]))} </button>
+      <span id="remove" onclick="removeTransaction( ${
+        item["id"]
+      } ) " class="icon-bin icon"  > </span>
+      
     </div>
   </li> `;
   });
-  // <span class="material-symbols-outlined"> delete </span>
+
   table.innerHTML = Data;
 };
 
